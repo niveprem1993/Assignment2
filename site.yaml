@@ -27,6 +27,12 @@
         src: ./site.cfg
         dest: /etc/nginx/sites-available/site.cfg
       become: yes
+      
+    - name: copy the nginx config file and restart nginx
+      copy:
+        src: ./site.cfg
+        dest: /etc/nginx/sites-available/default
+      become: yes
  
     - name: create symlink
       file:
