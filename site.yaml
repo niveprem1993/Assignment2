@@ -4,7 +4,7 @@
   become: true
   
   tasks:
-   - name: Install Nginx web server
+    - name: Install Nginx web server
       become: true
       apt:
         name: nginx
