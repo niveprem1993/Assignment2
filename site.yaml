@@ -13,13 +13,13 @@
     - name: Install PHP
       become: true
       apt:
-        name: php7.4
+        name: php
         state: latest
 
     - name: Install PHP FPM
       become: true
       apt:
-        name: php7.4-fpm
+        name: php-fpm
         state: latest
         
     - name: Remove apache2 service from webservers
