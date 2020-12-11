@@ -1,0 +1,54 @@
+---
+- hosts: webservers
+  remote_user: root
+  tasks:
+    - name: Install Nginx web server
+      become: true
+      apt:
+        name: nginx
+        state: latest 
+
+    - name: Install PHP CLI
+      become: true
+      apt:
+        name: php7.4-cli
+        state: latest
+
+    - name: Install PHP FPM
+      become: true
+      apt:
+        name: php7.4-fpm
+        state: latest
+
+    - name: copy the nginx config file and restart nginx
+      copy:
+        src: ./site.cfg
+        dest: /etc/nginx/sites-available/site.cfg
+      become: yes
+ 
+    - name: create symlink
+      file:
+        src: /etc/nginx/sites-available/site.cfg
+        remote_src: true
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      become: yes
+
+    - name: copy the content of the web site
+      copy:
+        src: ./index.php
+        dest: /etc/var/html/
+      become: yes
+
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
+
+    - name: restart php7.4-fpm
+      service:
+        name: php7.4-fpm
+        state: restarted
+      become: yes
+
