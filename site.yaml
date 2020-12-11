@@ -1,14 +1,15 @@
 ---
 - name: Play nginx-configuration
   hosts: webservers
-  become: yes
-  remote_user: root
+  become: true
+  
   tasks:
     - name: Install Nginx web server
       become: true
       apt:
         name: nginx
         state: latest 
+        update_cache: yes
         
     - name: Enable Nginx HTTP
       become: true
@@ -19,12 +20,14 @@
       apt:
         name: php
         state: latest
+        update_cache: yes
 
     - name: Install PHP FPM
       become: true
       apt:
         name: php-fpm
         state: latest
+        update_cache: yes
         
     - name: Remove apache2 service from webservers
       apt:
@@ -33,15 +36,13 @@
 
     - name: copy the nginx config file to site.cfg
       copy:
-        src: ./site.cfg
+        src: ~/site.cfg
         dest: /etc/nginx/sites-available/site.cfg
-      become: yes
       
     - name: copy the nginx config file to default
       copy:
-        src: ./site.cfg
+        src: ~/site.cfg
         dest: /etc/nginx/sites-available/default
-      become: yes
  
     - name: create symlink
       file:
@@ -49,29 +50,24 @@
         remote_src: true
         dest: /etc/nginx/sites-enabled/default
         state: link
-      become: yes
       
     - name: restart nginx
       service:
         name: nginx
         state: restarted
-      become: yes
 
     - name: copy the content of the web site
       copy:
-        src: ./index.php
+        src: ~/index.php
         dest: /var/www/html/index.php
-      become: yes
 
     - name: restart nginx
       service:
         name: nginx
         state: restarted
-      become: yes
 
     - name: restart php-fpm
       service:
         name: php-fpm
         state: restarted
-      become: yes
 
