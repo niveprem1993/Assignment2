@@ -1,5 +1,7 @@
 ---
-- hosts: webservers
+- name: Play nginx-configuration
+  hosts: webservers
+  become: yes
   remote_user: root
   tasks:
     - name: Install Nginx web server
