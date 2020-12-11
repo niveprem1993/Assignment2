@@ -14,16 +14,16 @@
       become: true
       shell: "sudo ufw allow 'Nginx HTTP'"
 
-    - name: Install PHP CLI
+    - name: Install PHP
       become: true
       apt:
-        name: php7.4-cli
+        name: php
         state: latest
 
     - name: Install PHP FPM
       become: true
       apt:
-        name: php7.4-fpm
+        name: php-fpm
         state: latest
         
     - name: Remove apache2 service from webservers
@@ -69,9 +69,9 @@
         state: restarted
       become: yes
 
-    - name: restart php7.4-fpm
+    - name: restart php-fpm
       service:
-        name: php7.4-fpm
+        name: php-fpm
         state: restarted
       become: yes
 
