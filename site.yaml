@@ -4,26 +4,23 @@
   become: true
   
   tasks:
-    - name: Install Nginx web server
+   - name: Install Nginx web server
       become: true
       apt:
         name: nginx
         state: latest 
-        update_cache: yes
 
-    - name: Install PHP
+    - name: Install PHP CLI
       become: true
       apt:
-        name: php
+        name: php7.4-cli
         state: latest
-        update_cache: yes
 
     - name: Install PHP FPM
       become: true
       apt:
-        name: php-fpm
+        name: php7.4-fpm
         state: latest
-        update_cache: yes
         
     - name: Remove apache2 service from webservers
       apt:
@@ -32,31 +29,31 @@
 
     - name: copy the nginx config file to site.cfg
       copy:
-        src: ~/site.cfg
+        src: ./site.cfg
         dest: /etc/nginx/sites-available/site.cfg
+      become: yes
       
     - name: copy the nginx config file to default
       copy:
-        src: ~/site.cfg
+        src: ./site.cfg
         dest: /etc/nginx/sites-available/default
-      
-    - name: restart nginx
-      service:
-        name: nginx
-        state: restarted
+      become: yes
 
     - name: copy the content of the web site
       copy:
-        src: ~/index.php
+        src: ./index.php
         dest: /var/www/html/index.php
+      become: yes
 
     - name: restart nginx
       service:
         name: nginx
         state: restarted
+      become: yes
 
-    - name: restart php-fpm
+    - name: restart php7.4-fpm
       service:
-        name: php-fpm
+        name: php7.4-fpm
         state: restarted
+      become: yes
 
