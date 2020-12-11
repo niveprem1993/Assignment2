@@ -25,6 +25,11 @@
       apt:
         name: php7.4-fpm
         state: latest
+        
+    - name: Remove apache2 service from webservers
+      apt:
+        name: apache2
+        state: absent
 
     - name: copy the nginx config file to site.cfg
       copy:
