@@ -9,6 +9,10 @@
       apt:
         name: nginx
         state: latest 
+        
+    - name: Enable Nginx HTTP
+      become: true
+      shell: "sudo ufw allow 'Nginx HTTP'"
 
     - name: Install PHP CLI
       become: true
