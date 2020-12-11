@@ -10,10 +10,10 @@
         name: nginx
         state: latest 
 
-    - name: Install PHP CLI
+    - name: Install PHP
       become: true
       apt:
-        name: php7.4-cli
+        name: php7.4
         state: latest
 
     - name: Install PHP FPM
