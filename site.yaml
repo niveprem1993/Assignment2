@@ -22,13 +22,13 @@
         name: php7.4-fpm
         state: latest
 
-    - name: copy the nginx config file and restart nginx
+    - name: copy the nginx config file to site.cfg
       copy:
         src: ./site.cfg
         dest: /etc/nginx/sites-available/site.cfg
       become: yes
       
-    - name: copy the nginx config file and restart nginx
+    - name: copy the nginx config file to default
       copy:
         src: ./site.cfg
         dest: /etc/nginx/sites-available/default
@@ -41,11 +41,17 @@
         dest: /etc/nginx/sites-enabled/default
         state: link
       become: yes
+      
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
 
     - name: copy the content of the web site
       copy:
         src: ./index.php
-        dest: /etc/var/html/
+        dest: /var/www/html
       become: yes
 
     - name: restart nginx
