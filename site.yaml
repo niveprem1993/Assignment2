@@ -10,10 +10,6 @@
         name: nginx
         state: latest 
         update_cache: yes
-        
-    - name: Enable Nginx HTTP
-      become: true
-      shell: "sudo ufw allow 'Nginx HTTP'"
 
     - name: Install PHP
       become: true
@@ -43,13 +39,6 @@
       copy:
         src: ~/site.cfg
         dest: /etc/nginx/sites-available/default
- 
-    - name: create symlink
-      file:
-        src: /etc/nginx/sites-available/site.cfg
-        remote_src: true
-        dest: /etc/nginx/sites-enabled/default
-        state: link
       
     - name: restart nginx
       service:
