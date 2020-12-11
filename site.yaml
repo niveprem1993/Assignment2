@@ -55,7 +55,7 @@
     - name: copy the content of the web site
       copy:
         src: ./index.php
-        dest: /var/www/html
+        dest: /var/www/html/index.php
       become: yes
 
     - name: restart nginx
