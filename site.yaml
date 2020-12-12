@@ -9,6 +9,11 @@
       apt:
         name: nginx
         state: latest 
+        
+    - name: start nginx
+    service:
+      name: nginx
+      state: started
 
     - name: Install PHP
       become: true
@@ -56,4 +61,34 @@
         name: php-fpm
         state: restarted
       become: yes
+      
+- name: Play ipv4address-configuration
+  hosts: webservers
+  tasks:
+    - debug: var=ansible_all_ipv4_addresses
+      
+- name: Play haproxy-configuration
+  hosts: haproxy
+  become: true
+  tasks:
+    - name: Install haproxy service
+      apt:
+       name: haproxy
+       state: latest     
+       update_cache: yes
+
+   - name: Update haproxy config file
+     copy:
+        src: ./haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg
+      become: yes
+                        
+   - name: restart haproxy
+     action: service name=haproxy state=restarted
+     
+   - name: start haproxy
+     service:
+       name: haproxy 
+       state: started
+
 
