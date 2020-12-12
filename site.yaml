@@ -51,9 +51,9 @@
         state: restarted
       become: yes
 
-    - name: restart php7.4-fpm
+    - name: restart php-fpm
       service:
-        name: php7.4-fpm
+        name: php-fpm
         state: restarted
       become: yes
 
