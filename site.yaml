@@ -11,9 +11,9 @@
         state: latest 
         
     - name: start nginx
-    service:
-      name: nginx
-      state: started
+      service:
+        name: nginx
+        state: started
 
     - name: Install PHP
       become: true
@@ -55,13 +55,7 @@
         name: nginx
         state: restarted
       become: yes
-
-    - name: restart php-fpm
-      service:
-        name: php-fpm
-        state: restarted
-      become: yes
-      
+     
 - name: Play ipv4address-configuration
   hosts: webservers
   tasks:
@@ -69,26 +63,29 @@
       
 - name: Play haproxy-configuration
   hosts: haproxy
+  remote_user: ubuntu
   become: true
   tasks:
     - name: Install haproxy service
       apt:
-       name: haproxy
-       state: latest     
-       update_cache: yes
+        name: haproxy
+        state: latest     
+        update_cache: yes
 
-   - name: Update haproxy config file
-     copy:
+    - name: Update haproxy config file
+      copy:
         src: ./haproxy.cfg
         dest: /etc/haproxy/haproxy.cfg
       become: yes
                         
-   - name: restart haproxy
-     action: service name=haproxy state=restarted
+    - name: restart haproxy
+      service:
+        name: haproxy
+        state: restarted
      
-   - name: start haproxy
-     service:
-       name: haproxy 
-       state: started
+    - name: start haproxy
+      service:
+        name: haproxy 
+        state: started
 
 
