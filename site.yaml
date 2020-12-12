@@ -77,15 +77,15 @@
         path: /etc/haproxy/haproxy.cfg
         block: |
            frontend haproxy
-               bind *:80
-               mode http
-               default_backend webservers
+                   bind *:80
+                   mode http
+                   default_backend webservers
            backend webservers
-               balance roundrobin
-               option forwardfor
-           {%  for server in groups['webservers'] %}
-               server {{ hostvars[server]['inventory_hostname'] }} {{ hostvars[server]['ansible_default_ipv4']['address']}}:80 check
-           {% endfor %}
+                   balance roundrobin
+                   option forwardfor
+               {%  for server in groups['webservers'] %}
+                   server {{ hostvars[server]['inventory_hostname'] }} {{ hostvars[server]['ansible_default_ipv4']['address']}}:80 check
+               {% endfor %}
                         
     - name: restart haproxy
       service:
