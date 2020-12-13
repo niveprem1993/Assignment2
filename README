@@ -1,2 +1,2 @@
-This repository contains site.yaml, site.cfg, config and hosts
+This repository contains site.yaml, site.cfg, config, index.php and hosts
 This project is to automate webservers and haproxy loadbalancing.
